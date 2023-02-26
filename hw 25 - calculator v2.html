@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .btn {
+            width: 60px;
+            height: 60px;
+            background: #23df6e;
+            display: inline-block;
+            font-size: 26px;
+            text-align: center;
+            line-height: 60px;
+            user-select: none;
+        }
+
+        .btn:hover {
+            background: #FFA426;
+            color: #fff;
+        }
+
+
+
+        #calc {
+            width: 240px;
+            display: inline-block;
+        }
+
+        #outputVal {
+            border: 1px solid black;
+            display: block;
+            width: 238px;
+            height: 50px;
+            font-size: 36px;
+            font-weight: bold;
+            resize: vertical;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+
+        const newElement = document.createElement('div');
+        newElement.setAttribute('id', 'calc');
+        document.body.prepend(newElement);
+
+        const area = document.createElement('output');
+        area.setAttribute('id', 'outputVal')
+        area.textContent = '0';
+        document.body.prepend(area);
+
+        const signs = [
+            '7', '8', '9', '+',
+            '4', '5', '6', '-',
+            '1', '2', '3', '/',
+            '0', '.', '=', '*',
+            'C'
+        ];
+
+        const calc = document.getElementById('calc');
+
+        
+        const outputArea = document.getElementById('outputVal');
+
+
+        function createCalc(sign, parentNode) {
+            const fragment = new DocumentFragment()
+
+            signs.forEach(function (sign) {
+                const signElement = document.createElement('div');
+                signElement.className = 'btn';
+                signElement.innerHTML = sign;
+                fragment.append(signElement);
+            });
+
+            parentNode.append(fragment);
+        }
+
+        createCalc(signs, calc)
+
+
+
+
+        
+        document.querySelectorAll('.btn').forEach(function (button) {
+            
+            button.addEventListener('click', onButtonClick);
+        });
+
+        
+        function onButtonClick(e) {
+           
+            if (e.target.innerHTML === 'C') {
+               
+                outputArea.innerHTML = '0';
+            } else if (e.target.innerHTML === '=') {
+                
+                outputArea.innerHTML = eval(outputArea.innerHTML);
+            } else if (outputArea.innerHTML === '0') {
+                
+                outputArea.innerHTML = e.target.innerHTML;
+            } else {
+                
+                outputArea.innerHTML += e.target.innerHTML;
+            }
+        }
+
+
+    </script>
+
+
+
+</body>
